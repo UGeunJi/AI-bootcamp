@@ -1,5 +1,5 @@
 # :tent: AI-bootcamp
-- 지우근
+- **```지우근```**
 
 # :scroll: Rule
 - 매일 배운 거 복습하는 겸 업로드
