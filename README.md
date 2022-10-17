@@ -1,7 +1,7 @@
-# AI-bootcamp
+# :tent: AI-bootcamp
 - 지우근
 
-# :rule: Rule
+# :scroll: Rule
 - 매일 배운 거 복습하는 겸 업로드
 - 추가적인 공부도 함께
 
