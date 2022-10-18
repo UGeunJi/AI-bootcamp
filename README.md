@@ -3,7 +3,7 @@
 
 # :scroll: Rule
 - 매일 배운 거 복습하는 겸 업로드
-- 추가적인 공부도 함께
+- 코딩테스트 연습
 
 # :calendar: schadule
 
