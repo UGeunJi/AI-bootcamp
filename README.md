@@ -2,8 +2,8 @@
 - **```지우근```**
 
 # :scroll: Rule
-- 매일 배운 거 복습하는 겸 업로드
-- 코딩테스트 연습
+- :newspaper: 매일 배운 거 복습하는 겸 업로드
+- :star2:코딩테스트 연습
 
 # :calendar: schadule
 
