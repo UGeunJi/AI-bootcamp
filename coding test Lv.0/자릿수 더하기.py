@@ -2,7 +2,5 @@
 
 def solution(n):
     answer = 0
-    while (n != 0):
-        answer += int(n % 10)
-        n /= 10;
+    answer = sum(list(map(int,list(str(n)))))
     return answer
