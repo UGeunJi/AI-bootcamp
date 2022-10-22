@@ -2,4 +2,4 @@
 
 These problems are from Progammers and I solved them in Python.
 
-Now this repository is for me, but if anyone who need help for solving see this, refer the explanations as much as you likes.
+This repository is for me now, but if anyone who need help for solving problems sees this later, you could refer the explanations as much as you likes.
