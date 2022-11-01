@@ -314,7 +314,7 @@ select * from countrylanguage
 -- world database에 접속된 상태에서 mywork database에 있는 box_office 테이블에서
 -- 2019년 제작된 영화중 순위(ranks)가 1위에서 10위까지인 영화를 순위(ranks)로 조회하기
 
-select * from box_office
+select * from mywork.box_office
   where years like '2019%'
   order by ranks
   limit 10;
