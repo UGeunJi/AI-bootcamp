@@ -7,10 +7,10 @@
 
 # :calendar: schadule
 
-| 일차 | 주제 |
-| ----- | -------|
-| 1 ~ 8 | Python |
-| 9 ~ 10 | Web Scraping |
+| 일차 | 주제 | Clear |
+| ----- | -------| --- |
+| 1 ~ 8 | Python | :heart: |
+| 9 ~ 10 | Web Scraping | :heart: |
 | 11 ~ 17 | SQL |
 | 21 ~ 27 | Data Analysis |
 | 28 ~ 34 | Machine Learning |
