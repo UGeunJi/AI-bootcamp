@@ -1,4 +1,4 @@
-# :tent: AI-bootcamp
+# :tent: AI-Bootcamp
 - **```지우근```**
 
 # :scroll: Rule
