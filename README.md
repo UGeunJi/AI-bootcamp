@@ -28,8 +28,8 @@
 
 # :computer: Project
 
-| 일차 | 프로젝트 |
-| ------- | -------- |
+| 일차 | 프로젝트 | Clear |
+| ------- | -------- | --- |
 | 18 ~ 20 | Mini Project |
 | 35 ~ 37 | Mini Project |
 | 60 ~ 64 | Mini Project |
