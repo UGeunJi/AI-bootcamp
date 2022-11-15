@@ -30,7 +30,7 @@
 
 | 일차 | 프로젝트 | Clear |
 | ------- | -------- | --- |
-| 18 ~ 20 | Mini Project |
+| 18 ~ 20 | Mini Project | :heart: |
 | 35 ~ 37 | Mini Project |
 | 60 ~ 64 | Mini Project |
 | 71 ~ 72 | Mini Project |
