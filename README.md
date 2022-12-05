@@ -13,7 +13,7 @@
 | 9 ~ 10 | Web Scraping | :heart: |
 | 11 ~ 17 | SQL | :heart: |
 | 21 ~ 27 | Data Analysis | :heart: |
-| 28 ~ 34 | Machine Learning |
+| 28 ~ 34 | Machine Learning | :heart: |
 | 38 ~ 45 | Computer vision |
 | 46 ~ 50 | Deep Learning |
 | 51 ~ 55 | CNN |
