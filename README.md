@@ -14,7 +14,7 @@
 | 11 ~ 17 | SQL | :heart: |
 | 21 ~ 27 | Data Analysis | :heart: |
 | 28 ~ 34 | Machine Learning | :heart: |
-| 38 ~ 45 | Computer vision |
+| 38 ~ 45 | Computer vision | :heart: |
 | 46 ~ 50 | Deep Learning |
 | 51 ~ 55 | CNN |
 | 56 ~ 59 | CNN Application |
