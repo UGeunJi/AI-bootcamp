@@ -15,8 +15,8 @@
 | 21 ~ 27 | Data Analysis | :heart: |
 | 28 ~ 34 | Machine Learning | :heart: |
 | 38 ~ 45 | Computer vision | :heart: |
-| 46 ~ 50 | Deep Learning |
-| 51 ~ 55 | CNN |
+| 46 ~ 50 | Deep Learning | :heart: |
+| 51 ~ 55 | CNN | :heart: |
 | 56 ~ 59 | CNN Application |
 | 65 ~ 67 | HTML/CSS |
 | 68 ~ 69 | Streamlit |
