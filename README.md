@@ -17,7 +17,7 @@
 | 38 ~ 45 | Computer vision | :heart: |
 | 46 ~ 50 | Deep Learning | :heart: |
 | 51 ~ 55 | CNN | :heart: |
-| 56 ~ 59 | CNN Application |
+| 56 ~ 59 | CNN Application | :heart: |
 | 65 ~ 67 | HTML/CSS |
 | 68 ~ 69 | Streamlit |
 | 70 | Firebase |
