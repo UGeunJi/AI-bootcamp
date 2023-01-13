@@ -32,7 +32,7 @@
 | ------- | -------- | --- |
 | 18 ~ 20 | Mini Project | :heart: |
 | 35 ~ 37 | Mini Project | :heart: |
-| 60 ~ 64 | Mini Project |
+| 60 ~ 64 | Mini Project | :heart: |
 | 71 ~ 72 | Mini Project |
 | 80 ~ 81 | Mini Project |
 | 90 ~ 92 | Mini Project |
