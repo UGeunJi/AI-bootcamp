@@ -1,0 +1,64 @@
+
+/* 
+1. html 파일에 있는 css 코드를 모두 4.css에 모아주세요
+2. div, span 각각 margin 20, padding 10 씩 부여해 주세요
+3. 배경색: div - grren, span - blue로 변경 부탁드립니다 
+*/ 
+header {
+    background-color: #006699;
+    color: #FFFFFF;
+}
+
+span {
+/* top - left - bottom - right 시계 반대방향으로 작용합니다 */
+/*   margin: 20px 30px 40px 50px;   */
+    margin: 20px;
+/*   margin-top: 20px;
+margin-bottom:10px;
+margin-left: 30px;
+margin-right: 100px; */
+    padding: 10px;
+    background-color: blue;
+}
+
+/* block 속성을 가진 h1 태그를 display: inline; 으로 강제로 속성 변경 */
+.title {
+    display: inline; 
+}
+
+.list {
+    display: inline;
+    position: absolute;
+    right: 20px;
+    bottom: 25px;
+    text-align: right;
+}
+
+.list-item {
+    display: inline-block;
+    /* inline 속성은 너비 속성을 가지지 않습니다 */
+    /* inline-block은 inline 속성이면서, block 속성을 같이 사용 */
+    width: 300px;
+    font-size: 30px;
+    text-transform: uppercase;
+}
+
+.container {
+    position:relative;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top:20px;
+    padding-bottom:20px;
+}
+
+.span {
+    position: absolute;
+    top: 50px;
+    left: 180px;
+}
+
+div {
+    margin: 20px;
+    padding: 10px;
+    background-color: green;
+}
