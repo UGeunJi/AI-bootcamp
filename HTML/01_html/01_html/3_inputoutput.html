@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>폼 데이터 다루기</title>
+    <style>
+      #name {
+        color: yellow
+      }
+
+      #sex {
+        background-color: red;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <form id="my_form" method="get">
+    <!-- <form id="my_form" method="post"> -->
+      <label for="name">이름 </label>
+      <input type="text" 
+             id="name" name="name"
+             autocomplete="off" spellcheck=true>
+      <br><br>
+      <label for="sex">성별 </label>
+      <input type="text" 
+             id="sex" name="sex"
+             autocomplete="off">
+      <br><br>
+      <label for="town">지역 </label>
+      <input type="text" 
+             id="town" name="town" placeholder="서울시"
+             autocomplete="off">
+      <br><br>
+      <label for="fav_language">좋아하는 언어 선택하기</label><br>
+      <input type="radio" id="html" name="fav_language" value="HTML"> 
+    에이치티엠엘<br>
+      <input type="radio" id="css" name="fav_language" value="CSS">
+    씨에스에스<br>
+      <input type="radio" id="javascript" name="fav_language" value="JavaScript">
+    자바스크립트<br>
+    <br>
+     
+      <label for="coding">코딩경험 유무 : </label>
+      <input type="checkbox" id="input_check" name="coding" value=1><br><br>
+
+      <label for="avail_language">사용할 수 있는 언어 선택하기</label><br>
+      <input type="checkbox" id="avail_html" name="avail_language" value="HTML" checked> 
+    에이치티엠엘<br>
+      <input type="checkbox" id="avail_css" name="avail_language" value="CSS">
+    씨에스에스<br>
+      <input type="checkbox" id="avail_javascript" name="avail_language" value="JavaScript">
+    자바스크립트<br>
+    <br>
+    <textarea name="article" rows="20" cols="30" >
+        텍스트 
+        </textarea>
+    <!-- 아래는 label for 없는 상태입니다 -->
+
+    날짜 <input type="date" name="date"><br><br>
+    색상 선택 <input type="color" name="color" value="#ff0000"><br><br>
+    범위 선택 <input type="range" name="range" min="100" max="1000"><br><br>
+    전화번호 <input type="tel" id = "tel" name="phone" size="20" placeholder='010-1234-5678' style="width: 100px; height: 40px;" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}">
+
+      <button>완료</button>
+    </form>
+    <select id="food" name="food" multiple>
+        <optgroup label="음식">
+          <option value="pizza" selected>피자</option>
+          <option value="hamburger">햄버거</option>
+          <option value="pasta">파스타</option>
+          <option value="steak">스테이크</option>
+        </optgroup>
+      </select>
+    <select id="food" name="food" multiple>
+        <optgroup label="후식">
+            <option value="cola">콜라</option>
+            <option value="coffee">커피</option>
+            <option value="icecream">아이스크림</option>
+            <option value="cider">사이다</option>
+        </optgroup>
+    </select>
+
+    <form>
+        
+    </form> 
+<script>      
+      document.getElementById('my_form').onsubmit = function(){
+        /* 1. 여기서 this는 'my_form'을 의미합니다.
+         값이 하나인 경우 value에 담아보낼 수 있습니다. */
+        var name = this.name.value
+        var sex = this.sex.value
+        var town = this.town.value
+        var fav_language = this.fav_language.value
+        var date = this.date.value
+        var color = this.color.value
+        var range = this.range.value
+        var phone = this.phone.value
+        var coding = this.coding.checked
+
+        // 체크박스의 갯수를 변수에 담는다.
+        var chklen = this.avail_language.length; 
+        var avail_language1 = []
+        // 체크박스 갯수만큼 for 문을 돌려 체크된 value값을 가져온다.
+        for(i=0; i<chklen; i++){
+            if(this.avail_language[i].checked == true){
+              avail_language1.push(this.avail_language[i].value)
+            }
+          }            
+
+      var content = name + ", " + sex + ", " + town + ", " + fav_language + ", " + coding + ", " + avail_language1 + ", "+ date + ", " + color + ", " + range + ", " + phone
+    
+        //2. 새로운 <p> 태그를 하나 생성하여 body에 추가합니다.
+        var p = document.createElement('p')
+        p.textContent = content // 새로 만든 태그의 내용 지정하기
+        document.getElementsByTagName('body')[0].appendChild(p)
+
+        //3. 제출 이벤트로 인한 새로고침을 방지합니다.
+        return false;
+      }
+
+
+    </script>
+  </body>
+</html>
