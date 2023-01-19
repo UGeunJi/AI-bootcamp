@@ -18,7 +18,7 @@
 | 46 ~ 50 | Deep Learning | :heart: |
 | 51 ~ 55 | CNN | :heart: |
 | 56 ~ 59 | CNN Application | :heart: |
-| 65 ~ 67 | HTML/CSS |
+| 65 ~ 67 | HTML/CSS | :heart: |
 | 68 ~ 69 | Streamlit |
 | 70 | Firebase |
 | 73 ~ 77 | JAVASCRIPT |
