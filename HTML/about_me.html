@@ -3,22 +3,42 @@
 <head>
     <center>
     <style>
-        #navi{
-            position:fixed;
-            background-color: rgb(179, 203, 227);
+        * {
+            margin: 0px;
         }
+
+        #header {
+            border: blue solid 1px;
+            margin: 20px;   
+        }
+
+        #navi{
+            background-color: rgb(179, 203, 227);
+            border: 0.5px dashed black; 
+            margin: 20px;
+            float: right;
+        }
+
         #container{
             background-color: rgb(35, 236, 75);
+            margin: 20px;
+            float: left;
         }
+
+        #contents{
+            float: right;
+            border: 1px solid black;
+        }
+
         #footer{
-            position:fixed;
             background-color: rgb(235, 97, 59);
             bottom: 0px;
             right: 0px;
             left: 0px;
-
+            border: 0.5px dashed black;
             text-align: center;
             height: 430;
+            margin: 20px;
         }
     </style>
     <html style='border: 0.5px dashed blue'>
@@ -34,7 +54,7 @@
         </div>
     </header>
     <container>
-        <div id="container" style='border: 0.5px dashed red'>
+        <main id="container" style='border: 0.5px dashed red'>
             <div id="about_me" >
                 안녕하세요. 인공지능을 공부 중인 지우근이라고 합니다.
             </div>
@@ -53,7 +73,7 @@
                 <br>
                 <span style='font-size:100px;'>&#128161;</span>
             </div>
-        </div>
+        </main>
     </container>
     <folder >
         <div id="footer" style='border: 0.5px dashed brown'>
