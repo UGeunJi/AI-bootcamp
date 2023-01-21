@@ -1,0 +1,2 @@
+streamlit # streamlit 기본 모듈 (필수)
+# 여기부터 추가하고 싶은 모델 표시
