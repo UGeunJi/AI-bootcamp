@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Queries</title>
+    <head>
+        <style>
+        body {
+            display: flex;
+          }
+          
+          div {
+            background: yellow;
+          }
+          
+          @media (orientation: landscape) {
+            body {
+              flex-direction: row;
+            
+            }
+          }
+          
+          @media (orientation: portrait) {
+            body {
+              flex-direction: column;
+            }
+          }
+
+          @media (any-hover: hover) {
+            a:hover {
+                background: yellow;
+            }
+        }
+
+          input[type="checkbox"] {
+                -moz-appearance: none;
+                -webkit-appearance: none;
+                appearance: none;
+                border: solid;
+                margin: 0;
+            }
+
+        input[type="checkbox"]:checked {
+            background: gray;
+        }
+
+        @media (pointer: fine) {
+            input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            border-width: 1px;
+            border-color: blue;
+            }
+        }
+
+        @media (pointer: coarse) {  /* 터치스크린 상태 */ 
+            input[type="checkbox"] {
+            width: 30px;
+            height: 30px;
+            border-width: 2px;
+            border-color: red;
+            }
+        }
+
+        .themed {
+            display: block;
+            width: 10em;
+            height: 10em;
+            background: black;
+            color: white;
+        }
+
+        @media (prefers-color-scheme:light) {
+            .themed {
+            background: white;
+            color: black;
+            }
+        }
+            
+        div.example {
+              background-color: yellow;
+              padding: 20px;
+            }
+
+        @media screen and (max-width: 600px) {
+              div.example {
+                display: none;
+              }
+            }
+            
+        @media print {
+            body {
+                font-size: 30pt;
+            }
+        }
+        </style>
+    </head>
+</head>
+<body>
+    
+1. orientation
+    <div>Box 1</div>
+    <div>Box 2</div>
+    <div>Box 3</div>
+    <br>
+    
+2. pointer 
+
+    <input id="test" type="checkbox" />
+    <label for="test">Look at me!</label>
+    <br>
+
+3. hover
+    <a href="#">Try hovering over me!</a>
+    <br>
+    
+4. prefers-color-scheme: light
+    <div class="themed">당신이 쓰고 있는 화면 모드는? 이 예제는 검은 배경에 흰 텍스트를 가진 요소를 라이트 테마를 사용하는 사용자가 볼 경우 색이 반대로 나타납니다.</div>
+    <br>    
+5. 화면을 가로로 줄여보세요.
+    <div class="example">Example DIV.</div>
+    <br>  
+6. print - 마지막으로 Ctrl + P 혹은 인쇄 버튼을 눌러보세요.
+    
+</body>
+</html>
