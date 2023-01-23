@@ -19,7 +19,7 @@
 | 51 ~ 55 | CNN | :heart: |
 | 56 ~ 59 | CNN Application | :heart: |
 | 65 ~ 67 | HTML/CSS | :heart: |
-| 68 ~ 69 | Streamlit |
+| 68 ~ 69 | Streamlit | :heart: |
 | 70 | Firebase |
 | 73 ~ 77 | JAVASCRIPT |
 | 78 ~ 79 | Bootstrap |
