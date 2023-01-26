@@ -1,0 +1,52 @@
+if(clicked == True):
+    ticker_symbol = get_ticker_symbol(stock_name, "kospi")     
+    ticker_data = yf.Ticker(ticker_symbol)
+    start_p = date_range[0]               
+    end_p = date_range[1] + datetime.timedelta(days=1) 
+    df = ticker_data.history(start=start_p, end=end_p)
+    df.index = df.index.date
+    st.subheader(f"[{stock_name}] 주가 데이터")
+    st.dataframe(df.head())  
+    matplotlib.rcParams['font.family'] = 'Malgun Gothic'   
+    matplotlib.rcParams['axes.unicode_minus'] = False
+    ax = df['Close'].plot(grid=True, figsize=(15, 5)) 
+    ax.set_title("주가(종가) 그래프", fontsize=30)     
+    ax.set_xlabel("기간", fontsize=20)
+    ax.set_ylabel("주가(원)", fontsize=20)
+    plt.xticks(fontsize=15)
+    plt.yticks(fontsize=15)     
+    fig = ax.get_figure()  
+    st.line_chart(fig)
+    st.markdown("**주가 데이터 파일 다운로드**")     
+    csv_data = df.to_csv()  
+    excel_data = BytesIO()      
+    df.to_excel(excel_data)     
+    columns = st.columns(2) 
+    with columns[0]:
+        st.download_button("CSV 파일 다운로드", csv_data, file_name='stock_data.csv')   
+    with columns[1]:
+        st.download_button("엑셀 파일 다운로드", 
+        excel_data, file_name='stock_data.xlsx')
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+if(clicked == True):
+    ticker_symbol = get_ticker_symbol(stock_name, "kospi")     
+    ticker_data = yf.Ticker(ticker_symbol)
+    start_p = date_range[0]               
+    end_p = date_range[1] + datetime.timedelta(days=1) 
+    df = ticker_data.history(start=start_p, end=end_p)
+    df.index = df.index.date
+    st.subheader(f"[{stock_name}] 주가 데이터")
+    st.dataframe(df.head())  
+    st.line_chart(data=df)
+    st.markdown("**주가 데이터 파일 다운로드**")     
+    csv_data = df.to_csv()  
+    excel_data = BytesIO()      
+    df.to_excel(excel_data)     
+    columns = st.columns(2) 
+    with columns[0]:
+        st.download_button("CSV 파일 다운로드", csv_data, file_name='stock_data.csv')   
+    with columns[1]:
+        st.download_button("엑셀 파일 다운로드", 
+        excel_data, file_name='stock_data.xlsx')
