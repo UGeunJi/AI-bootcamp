@@ -1,5 +1,0 @@
-streamlit
-pandas
-yfinance
-matplotlib
-openpyxl
