@@ -20,7 +20,7 @@
 | 56 ~ 59 | CNN Application | :heart: |
 | 65 ~ 67 | HTML/CSS | :heart: |
 | 68 ~ 69 | Streamlit | :heart: |
-| 70 | Firebase |
+| 70 | Firebase | :heart: |
 | 73 ~ 77 | JAVASCRIPT |
 | 78 ~ 79 | Bootstrap |
 | 82 ~ 89 | Django |
@@ -33,7 +33,7 @@
 | 18 ~ 20 | Mini Project | :heart: |
 | 35 ~ 37 | Mini Project | :heart: |
 | 60 ~ 64 | Mini Project | :heart: |
-| 71 ~ 72 | Mini Project |
+| 71 ~ 72 | Mini Project | :heart: |
 | 80 ~ 81 | Mini Project |
 | 90 ~ 92 | Mini Project |
 | 101 ~ 120 | main project |
