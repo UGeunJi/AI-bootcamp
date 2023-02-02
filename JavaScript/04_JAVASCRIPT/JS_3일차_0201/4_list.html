@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 사용자한테 몇개를 입력할 것인지 리스트의 개수를 입력받고, 입력된 항목수만큼 내용을 받아서
+        // 똑같은 형식으로 출력을 해볼게요 
+        var input = prompt('리스트 항목 수를 입력해주세요')
+        document.write('<ul>')
+        for (var i =1; i <= input ; i++){
+            var listItem = prompt('리스트에 넣을 항목을 입력해주세요')
+            document.write('<li>'+listItem+'</li>')
+        }
+        document.write('</ul')
+    </script>
+
+    <ul>
+        <li>사과</li>
+        <li>배</li>
+        <li>포도</li>
+    </ul>
+
+</body>
+</html>
