@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .bgIn {
+            background-color: coral;
+            color:bisque;
+        }
+    </style>
+</head>
+<body id="theBody">
+    <center>
+    <!-- 1. 숫자 세는 자리 <div>  -->
+    <div id="number"> <h2 id="num"> 0 </h2> </div>
+    <!-- 2. 누르면 하나씩 더해지는 자리: increase  -->
+    <div id="buttons">
+        <!-- onclick="increase()" -->
+        <button id="increase">+</button> 
+        <!-- 3. 누르면 하나씩 빠지는 자리 (0보다 작으면 더이상 작아지는 것을 불가) : decrease -->
+        <button id="decrease">-</button>
+        <!-- 4. Reset 버튼 : reset  -->
+        <br>
+        <br>
+        <br>
+        <button id="reset" onclick="reset()">Reset</button>
+    
+        <button id="bgColor">배경색</button>
+    </div>
+
+    <div id="events">
+        <input type="text" onkeydown="alert('onkeydown')"> <br>
+        <input type="text" onkeypress="alert('onkeypress')"> <br>
+        <input type="text" onmousedown="alert('onmousedown')"> <br>
+    </div>
+
+    </center>
+
+<script> 
+
+    var num = document.querySelector('#num')
+   
+    // ID가 아닌 경우는 변수를 만들어서 해당 위치에 이벤트리스너를 달아주세요
+    var h2_ = document.querySelector('h2') 
+
+    // h2_.innerText= '잡힘'
+    // h2_.addEventListener('click', () =>{
+    //     num.innerText = ++num.innerText;
+    // })
+
+    increase.addEventListener('click', () =>{
+        num.innerText = ++num.innerText;
+    })
+    
+    // function increase() {
+    //     // 현재 화면에는 num이 출력
+    //     // num 변수에는 하나 더 추가된 숫자가 출력되고 저장됩니다  
+    //     num.innerText = ++num.innerText;
+        
+    // }
+
+    decrease.addEventListener( 'click', () => {
+        if (num.innerText > 0) {
+        num.innerText = --num.innerText;
+        }
+    })
+    
+    // let decrease = () => {
+    //     if (num.innerText > 0) {
+    //     num.innerText = --num.innerText;
+    //     }
+    // }
+
+    let reset = function() {
+        num.innerText = 0;
+    }
+
+    bgColor.addEventListener('click', () => {
+        document.querySelector('#theBody').classList.toggle('bgIn');
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 기초</title>
+    <style>
+        body {font-size: 3rem;}
+        h1{
+            background: #fff000;
+        }
+        .menu {
+            display: flex;
+        }
+
+        .menu-link {
+            margin : .1em;
+            padding: .3em;
+            background: blue;
+            color: #ffff;
+            text-decoration: none;
+            list-style: none;
+        }
+
+        .menu-active{
+            background: orange;
+        }
+
+        .menu {
+            background: yellowgreen;
+        }
+    </style>
+    <script>
+      </script>
+</head>
+<body>
+    <h1 id="main-title"> Event </h1>
+    <p>
+        <!-- 해결 2. onclick=""-->
+        <!-- <nav class="menu">
+            <a href="#" class="menu-link" data-menu="1" onclick="clickMenuHandler()">menu 1</a>
+            <a href="#" class="menu-link" data-menu="2" onclick="clickMenuHandler()">menu 2</a>
+            <a href="#" class="menu-link" data-menu="3" onclick="clickMenuHandler()">menu 3</a>
+            <a href="#" class="menu-link" data-menu="4" onclick="clickMenuHandler()">menu 4</a>
+        </nav> -->
+
+        <!-- 해결 3 이후. event handler-->
+        <nav class="menu">
+            <a href="#" class="menu-link" data-menu="1">menu 1</a>
+            <a href="#" class="menu-link" data-menu="2">menu 2</a>
+            <a href="#" class="menu-link" data-menu="3">menu 3</a>
+            <a href="#" class="menu-link" data-menu="4">menu 4</a>
+        </nav>
+
+        <!-- 이벤트 객체의 키 속성 확인해보기 -->
+<!--         
+        <div class="parent">
+            <input type="text" class="val">
+        </div> -->
+
+
+    </body>
+    <script>
+        // 실습. 클릭한 메뉴만 .menu-active의 속성이 적용되도록 만들어보세요 clickMenuHandler 
+        // 만들기 전에 고민
+        // v 하나를 클릭한다 -> 클릭한 부분의 색깔은 바뀐다 
+        // v 다른 부분은 색깔이 파란색으로 돌아온다
+
+        // v 초기상태에 기본으로 menu1이 선택되어 있다면?? 좋겠네  
+
+
+        // 해결 1. 
+        // 일단 1개만 작동되도록 코드를 만들어봅니다 
+        // 작동되는 부분을 기준으로 전체 코드를 짜봅니다 
+       
+        // var menu = document.querySelectorAll('.menu-link');   
+        // menu[1].classList.toggle('menu-active'); // 근데 클릭하는 버튼을 호출해야 하는데?
+       
+        // 근데 클릭하면 클릭되지 않은 버튼들은 원래 색으로 바뀌게 해야 하는데?
+        //     // toggle 분리 (add/remove )
+        //     // 클릭하는 버튼 부분은 menu-active를 더하고 
+        //     // menu.classList.add('menu-active')
+        //     // // 그렇지 않는 menu-link 들에서는 menu-active를 빼는 
+        //     // menu.classList.remove('menu-active')
+       
+       // 해결 2. onclick="clickMenuHandler()" 를 각 menu에 다는 것과 함께 활용
+        // currentMenu라는 flag 변수 - 계속 내부의 값이 바뀌면서 다른 움직임을 제어하는 변수
+        // this 객체를 활용하여 함수가 동작하는 3군데 중에 특정 위치를 찾아서 저장하기 위한 변수
+        // var currentMenu; // 선언만 한 상태 undefined
+        // var menuLinks = document.querySelectorAll('.menu-link');
+
+        // // this 객체: 파이썬의 self와 같다 
+        // var clickMenuHandler = function () {
+        //         if (currentMenu) {
+        //         currentMenu.classList.remove('menu-active');
+        //         }
+        //         currentMenu = this;
+        //         console.log(currentMenu);
+        //     }
+
+
+        
+        // 해결 3. 이벤트 헨들러
+        // var currentMenu; // 선언만 한 상태 undefined
+        // var menuLinks = document.querySelectorAll('.menu-link');
+
+        // // this 객체: 파이썬의 self와 같다 
+        // function clickMenuHandler() {
+        //     if (currentMenu) {
+        //     currentMenu.classList.remove('menu-active');
+        //     }
+        //     this.classList.add('menu-active');
+        //     currentMenu = this;
+        //     console.log(currentMenu);
+        // }
+
+        // var clickMenuHandler = function () {
+        //     if (currentMenu) {
+        //     currentMenu.classList.remove('menu-active');
+        //     }
+        //     this.classList.add('menu-active');
+        //     currentMenu = this;
+        //     console.log(currentMenu);
+        // }
+
+    
+        // 반복문을 통해 menuLinks의 개별 객체에 접근
+    // for (var i = 0; i < menuLinks.length; i++) { // 새로 추가한 메뉴에도 작동을 하는 셈
+    //     // menuLinks[i].addEventListener('click', clickMenuHandler); 
+    //     menuLinks[i].addEventListener('click', function () {
+    //         if (currentMenu) {
+    //         currentMenu.classList.remove('menu-active');
+    //         }
+    //         this.classList.add('menu-active');
+    //         currentMenu = this;
+    //         console.log(currentMenu);
+    //     }); 
+    // }
+
+        // 해당 메뉴에 전부 이벤트리스너 걸어줘야
+        // 이 부분도 메뉴가 10억개라면? addEventListner도 많이 걸려있으면 성능에 안 좋다
+
+
+    // 해결 4. 리팩토링 : 부모에게 위임
+    // 이벤트위임으로 개선해보자 -> 엄마(부모)에게 위임시킨다
+
+
+    // var currentMenu; // 선언만 한 상태 undefined
+    // var menu = document.querySelector('.menu');
+
+    // var clickMenuHandler = function (e) { // e: event객체. 현재 화면단에서 발생한 이벤트에 관한 정보를 담고 있습니다.
+    // //                                       // 어제 우리가 썼던 arguments가 넣지 않아도 튀어나왔던 것처럼 
+    // //                                       // event 객체는 이벤트가 발생하면 해당 변화를 계속 감지하고 있습니다. 
+    //     console.log(e)
+    //     console.log(e.target)
+    // //     // console.log(this)
+    // //     if (currentMenu) {   // 1) 리셋 
+    // //     currentMenu.classList.remove('menu-active');
+    // //     }
+
+    // //     e.classList.add('menu-active'); // 2) 선택된 클래스에 menu-active 추가
+    // //      currentMenu = e;   // 3)  선택된 클래스를 currentMenu 변수에 값을 넣음 
+    // }
+
+    // menu.addEventListener('click', clickMenuHandler)
+
+    // 쪼갰는데 동작 안함... 어딘가에 잘못 들어가는 변수(e)가 있나?
+
+    // 함수로 동작을 쪼개 놓으면 - 문제가 되는 부분만 찾아가서 변경할 수 있습니다
+    // 1) activate - add
+    function activate(element) {
+        element.classList.add('menu-active'); // 2) 선택된 클래스에 menu-active 추가
+        currentMenu = element;   // 3)  선택된 클래스를 currentMenu 변수에 값을 넣음 
+    }
+    // 2) deactvivate   - remove 
+    function deactivate(element) {
+        element.classList.remove('menu-active');
+    }
+
+    // 3) clickHandler  -- 최종 보스
+    function clickHandler (e) {
+        if (currentMenu) {   // 1) 리셋 
+            deactivate(currentMenu) // 선택이 되어있었던 부분
+        } activate(e.target)  // 선택을 당한 부분만
+    }
+    
+    menu.addEventListener('click', clickHandler)
+
+    // 함수를 동작 단위로 쪼갰기 때문에 따로도 사용 가능 : 초기 로딩시 0번 메뉴 선택하도록
+    activate(document.querySelectorAll('.menu-link')[0]);
+
+
+    // 이벤트객체의 속성 일부 확인해보기
+    // function getEventType(e) {
+    //     console.log(e.type); 
+    //     console.log(e.keyCode); 
+    // }
+
+    // var inputBox = document.querySelector('.val');
+    // inputBox.addEventListener('keyup', getEventType);
+
+    </script>
+    </html>
