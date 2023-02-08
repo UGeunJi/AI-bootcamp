@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시계</title>
+</head>
+<body>
+    <!-- 버튼을 2개 만들고
+        1번 버튼에는 클릭시 h1의 크기로 지금 시간이 출력되는 함수를 연동해주세요
+        2번 버튼에는 클릭시 최종 시간이 출력되는 함수를 연동해주세요 
+    
+V 1. 화면을 만든다
+V 2. 버튼을 2개 만든다
+    3. 함수 각각을 만든다 
+       v 1. showTime
+            //  
+        2. stopTime
+      ms -> 1000초 : 1초 
+    -->
+  <button onclick="timer=setInterval('showTime()', 3000)">시간 출력</button>
+   <button onclick="clearInterval(timer)">시간 정지</button>
+  <h1 id="timeShow">시간 출력</h1>
+  <script>
+      function showTime() {
+    var now = new Date();
+    // 오전 9시 42분 52초
+    
+    var hour = now.getHours(); // 시
+    var minute = now.getMinutes();  // 분
+    var second = now.getSeconds();  // 초
+    var ampm; // 오전/오후
+    
+    if (hour < 12) {
+      ampm = '오전';
+    } else {
+      ampm = '오후'
+      if (hour > 12) {
+        hour = hour - 12
+      }
+    }
+    
+    // 변환한 시분초ampm 객체를 모아서 하나의 string으로 출력
+    var time = `${ampm} ${hour}시 ${minute}분 ${second}초`
+    
+    var timeShow = document.querySelector('#timeShow')
+    timeShow.innerHTML = time;
+    console.log(time)
+  }
+
+   // function을 매초 동작시켜야 하나??  -> setInterval(함수명, 시간) 이라는 JS자체 함수로 해결
+   // setInterval을 해제하기 위한 clearInterval이 짝궁처럼 있음
+   
+   // eventListerner 방식으로 변경해보세요
+   
+  </script>
+</body>
+</html>

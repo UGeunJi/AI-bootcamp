@@ -1,0 +1,60 @@
+<div id="demo"></div>
+
+<button onclick="loadDoc()">비동기</button>
+
+<script>
+
+    //버튼 클릭시 실행되면서 서버에 요청 및 응답 받아와서 화면에 출력
+    function loadDoc() {
+
+        //ajax 비동기 요청, 응답 객체
+        //브라우저 내부에 js 코드상에서 사용 가능한 js 객체
+        var xhttp = new XMLHttpRequest();
+
+        /* 
+        1. onreadystatechange 
+            - 브라우저와 서버간에 요청 시작~진행중~응답시작~완료까지를 감지하는 이벤트 핸들러 속성
+            - 요청~응답 상태가 변화되는 겂을 감지
+            : readyState 상태값 변경 감지로 간주 
+
+        2. readyState
+             1 : 요청시작 / 2 : 요청 진행 / 3 : 응답 시작 / 4 : 응답 완료
+
+        3. status
+            응답 상태값을 보유하게 되는 속성
+            200 : 정상 응답
+            404 : 요청 url 자원이 없을 경우 
+            500 : 서버 문제 
+
+        4. responseText
+            - 서버가 응답하는 XML 포멧을 제외한 모든 데이터를 받는 속성
+        
+        5. responseXML
+            - 서버가 응답하는 XML 포멧만 받는 속성 
+            
+        */xhttp.onreadystatechange = function () {
+
+            //정상 응답인 경우를 filtering 하는 조건식 
+            if (this.readyState == 4 && this.status == 200) {
+                let data = this.responseText;
+
+                alert(data);
+                console.log(data);
+                console.log(typeof (data));
+
+                data = JSON.parse(data);
+
+                document.getElementById("demo").innerHTML = `이름: ${data.name}
+                나이: ${data.age} 
+                친구: ${data.friends}
+                <ul> <li> 친구1: ${data.friends[0]} </li> </ul>`
+                ;
+            }
+        };
+        //서버 요청 방식과 실행 프로그램명 지정, true :비동기 의미            
+        xhttp.open("GET", "ajax_response.json", true);
+        //실제 서버에 요청
+        xhttp.send();
+    }
+
+</script>
