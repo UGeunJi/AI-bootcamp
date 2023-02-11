@@ -21,8 +21,8 @@
 | 65 ~ 67 | HTML/CSS | :heart: |
 | 68 ~ 69 | Streamlit | :heart: |
 | 70 | Firebase | :heart: |
-| 73 ~ 77 | JAVASCRIPT |
-| 78 ~ 79 | Bootstrap |
+| 73 ~ 77 | JAVASCRIPT | :heart: |
+| 78 ~ 79 | Bootstrap | :heart: |
 | 82 ~ 89 | Django |
 | 93 ~ 100 | ELK |
 
@@ -34,6 +34,6 @@
 | 35 ~ 37 | Mini Project | :heart: |
 | 60 ~ 64 | Mini Project | :heart: |
 | 71 ~ 72 | Mini Project | :heart: |
-| 80 ~ 81 | Mini Project |
+| 80 ~ 81 | Mini Project | :heart: |
 | 90 ~ 92 | Mini Project |
 | 101 ~ 120 | main project |
