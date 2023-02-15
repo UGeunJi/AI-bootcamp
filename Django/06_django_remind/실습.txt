@@ -1,0 +1,15 @@
+
+# board라는 앱을 만들어서 
+# db는 똑같이 Post라는 테이블에서(CLASS) title, content, created_at, updated_at 이 옵니다 
+
+# 화면에 주소:포트/board/ 로 접속하면 
+
+글번호:
+제목:
+내용:
+
+3개씩 출력이 되는 post_list.html을 만들어보세요
+
+views.py 에서만
+1) 함수형 
+2) 클래스형
