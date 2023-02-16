@@ -1,0 +1,84 @@
+
+          {% extends 'blog/base.html' %}
+          {% block page_area %}
+            <!-- Page Content-->
+            <section class="py-5">
+                <div class="container px-5">
+                    <h1 class="fw-bolder fs-5 mb-4">Company Blog</h1>
+                    <div class="card border-0 shadow rounded-3 overflow-hidden">
+                        <div class="card-body p-0">
+                            <div class="row gx-0">
+
+                                <div class="col-lg-6 col-xl-5 py-lg-5">
+                                    <div class="p-4 p-md-5">
+                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
+                                        <!-- <div class="h2 fw-bolder">{{ posts.first.title }}</div>  -->
+
+                                        <!-- models.py 함수 사용 전체 객체를 불러와서 그 중에 첫번째 요소를 선택하고 그 요소한테 전체 객체의 제목을 뽑아내게 시키고 있습니다 -->
+                                        <!-- <div class="h2 fw-bolder">{{ posts.first.first_post_query.title }}</div>  -->
+                                        
+                                        <!-- views.py에 오버라이딩 # 전체 객체는 전체 객체대로 오고 first_post라는 이름으로 가장 처음 글만 따로 옵니다 -->
+                                        <div class="h2 fw-bolder">{{ first_post.title }}</div> 
+                                        <p>{{ first_post.content|truncatewords:20 }}</p>
+                                        <a class="stretched-link text-decoration-none" href="{{ first_post.get_absolute_url }}">
+                                            더보기
+                                            <i class="bi bi-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                {% if first_post.header_img %}
+                                <div class="col-lg-6 col-xl-7"><div class="bg-featured-blog" style="background-image: url('{{ posts.first.header_img.url }}')"></div></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="py-5 bg-light">
+                <div class="container px-5">
+                    <div class="row gx-5">
+                        <div class="col-xl-8">
+                            <h2 class="fw-bolder fs-5 mb-4">News</h2>
+                            <!-- News item-->
+                            {% for post in posts %}
+                            {% if post != posts.first %}
+                            <div class="mb-4">
+                                <div class="small text-muted">{{ post.created_at }}</div>
+                                <a class="link-dark" href="{{ post.get_absolute_url }}"><h3>{{ post.title }}</h3></a>
+                                <p class="content"> {{ post.content|truncatewords:20 }} </p>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            <div class="text-end mb-5 mb-xl-0">
+                                <a class="text-decoration-none" href="#!">
+                                    More news
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-4">
+                            <div class="card border-0 h-100">
+                                <div class="card-body p-4">
+                                    <div class="d-flex h-100 align-items-center justify-content-center">
+                                        <div class="text-center">
+                                            <div class="h6 fw-bolder">Contact</div>
+                                            <p class="text-muted mb-4">
+                                                For press inquiries, email us at
+                                                <br />
+                                                <a href="#!">atangi@naver.com</a>
+                                            </p>
+                                            <div class="h6 fw-bolder">Follow us</div>
+                                            <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-twitter"></i></a>
+                                            <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-facebook"></i></a>
+                                            <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-linkedin"></i></a>
+                                            <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-youtube"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+            {% endblock %}
