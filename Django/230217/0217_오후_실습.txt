@@ -1,0 +1,71 @@
+
+# tag를 클릭하면 post_list를 재활용한 각 태그별 글이 검색되도록(쿼리로 db에서 가져와서 화면에 렌더링되도록) 로직을 짜 주세요. 
+
+# blog/tag/ 여차저차 로 호출하게 합니다.
+# hiphop(3)
+
+# Comment 부분 model은 어떤 필드를 포함하고 있어야 할까요? 어떤 관계로 Post, User와 맺어져야 할까요 
+
+--- 월요일 오전
+
+# CreateView - 객체를 생성하는 역할과 Form 양식을 모두 전담
+
+From 사용자(Client, Browser)
+
+v // - 우리의 db 양식대로 값을 입력받을 **input 태그**들이 필요합니다
+v // - input 태그들을 묶어서 한번에 전송해줄 **form**이 필요합니다 // CreateView가 다해줌 : ~form.html을 찾아감
+v // - form을 보여줄 **Template**이 필요합니다(화면) ~~.html
+v // - 화면에 받은 정보를 Django Framework(백엔드 서버)에 보내줄 **url**이 필요합니다 (urls.py)
+
+백엔드(Server)
+
+v // - 실행해줄 **함수**가 필요합니다.(views.py)
+v // - model이 우리가 사용하는 db의 언어로 통역을 해줄겁니다 (SQL 쿼리문을 만들 것) - **ORM 쿼리**
+
+DB
+
+v // - SQL문으로 바뀌어서 데이터(튜플, 레코드) 한줄로 들어갈 겁니다
+
+# 서치위젯을 완성하기 위해
+# Model : 1. Category Table에서 Category명만 가져옵니다
+Category.objects.all()
+v # View : 2. search_widget.html 의 Categories 항목에 1 목록을 보여줍니다
+- get_context_text()를 오버라이딩 해서 별개의 속성을 달아줘야 할 것 같아요
+v # Model에 함수를 만들고 Template에 해당 함수가 연결되도록 합니다: 
+v # 3. 각 항목을 클릭할 때마다 해당 카테고리에 있는 글들이 호출됩니다 
+v # 저 버튼 클릭시 화면단은 어떻게 구성할 것인가?????? -> 쿼리셋QuerySet을 가져와서 post_list.html을 재활용해서 뿌릴거에요.
+
+# 미분류 부분을 완성해주세요
+
+
+
+v # 1. 이미지가 있으면 보이고 없으면 안보이게
+v # 2. 글의 번호는 삭제
+v # 3. 시간 옆에 by 작성자명
+v # 카테고리와 더보기가 한줄에 놓입니다
+v # 카데코리는 왼쪽정렬, 더보기 버튼은 오른쪽 정렬
+v # 버튼은 검은색
+
+
+내일 오전 9시 10분까지
+v # 1. 지금까지 사용했던 post_list.html은 blog_home.html로 파일명을 변경해주세요
+v # (blog home 버튼을 누르면 이 페이지가 연결됩니다) 
+v # 2. 우리가 첫날 만들었던 게시판 파일(old_post_list.html)을 post_list.html로 이름을 변경하고, 
+v # 3. blog_home.html에서 'More News'를 클릭했을 때 우리가 첫날 만들었던 게시판으로 이동합니다.
+v # 4. post_list.html은 search_widget.html을 상속받아서 게시판 옆에 검색창과 카테고리를 우리에게 보여줍니다. 
+
+
+
+오후 3시 15분까지
+v # 최종적으로 admin에서 Tags 항목을 우리가 손볼 수 있어야 할 거고요 
+v # 그래서 나온 태그를 post_detail.html에서 출력되도록 만들어주세요
+
+오후 2시 10분까지
+v # 1. post_detail.html에서 Category 가 뜨도록 해주세요
+v # 2. Category 가 없으면 미분류 라는 글자가 뜨도록 해주세요 
+v # 3. 파일이 있으면 다운로드 버튼 옆에 해당 파일의 확장자가 출력되도록 해주세요. split('.')
+
+10시
+v # 누가 작성했는지 저(admin) 게시판에서 보고 싶어요
+v # 작성시간 옆에 by USERID 나왔으면 좋겠어요 
+v # 첫번째포스트에서 더보기 옆에 by USERID 나왔으면 좋겠어요

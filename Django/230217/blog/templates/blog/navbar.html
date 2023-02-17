@@ -1,0 +1,31 @@
+
+            <!-- Navigation-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+                <div class="container px-5">
+                    <a class="navbar-brand" href="{% url 'blog:home' %}">YEONJI KIM</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link" href="{% url 'blog:home' %}">Home</a></li>
+                            <!-- <li class="nav-item"><a class="nav-link" href="about/">About</a></li> -->
+                              <!-- # 등록된 이름만으로 위치를 찾기 때문에 도메인 주소나 path에 영향을 받지 않는다. 다만, 자기 프로젝트 내부에서만 사용 가능하다. -->
+                            <li class="nav-item"><a class="nav-link" href="{% url 'blog:about_me' %}">About</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'blog:contact' %}">Contact</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                    <li><a class="dropdown-item" href="{% url 'blog:home' %}">Blog Home</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'blog:post_list' %}">Blog Post</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
+                                    <li><a class="dropdown-item" href="portfolio-overview.html">Portfolio Overview</a></li>
+                                    <li><a class="dropdown-item" href="portfolio-item.html">Portfolio Item</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>

@@ -1,0 +1,16 @@
+{% extends 'blog/base.html' %}
+
+{% block page_area %}
+<p>
+    <h1>새 글 작성하기</h1>
+    <hr/>
+
+    <table>
+    <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+        {{ form }}
+
+        <button type="submit" class="btn btn-dark float-right">작성완료</button>
+    </form>
+    </table>
+
+{% endblock %}
