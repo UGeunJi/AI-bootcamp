@@ -1,0 +1,13 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block page_area %}
+    <h1>댓글 수정</h1>
+    <hr/>
+    <form method="post" id="comment-form">{% csrf_token %}
+        {# {{ form }} #}
+        {{ form|crispy }}
+        <br/>
+        <button type="submit" class="btn btn-dark float-right">작성</button>
+    </form>
+{% endblock %}

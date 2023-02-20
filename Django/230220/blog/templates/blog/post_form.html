@@ -1,0 +1,24 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block page_area %}
+<p>
+    {# create_post로는 없고 update_post로는 있거나, update_post는 없고 create_post는 있는 것 #}
+    {% if post %}
+    <h1> 글 수정하기 </h1>
+    {% else %}
+    <h1> 새 글 작성하기 </h1>
+    {% endif %}
+    <hr/>
+
+    <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+        {{ form|crispy }}
+        <div id="div_id_tags_str">
+            <label for="id_tags_str">Tags</label>
+            <input type="text" name="tags_str" id="id_tags_str" class="textinput textInput form-control" value="{{ tags_str_default }}">
+        </div>
+
+        <button type="submit" class="btn btn-dark float-right">작성완료</button>
+    </form>
+    {{ form.media }}
+{% endblock %}

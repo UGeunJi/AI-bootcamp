@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>POSTLIST</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{% static 'blog/assets/favicon.ico' %}" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'blog/css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body class="d-flex flex-column">
+    <main class="flex-shrink-0">
+            {% include 'blog/navbar.html' %}
+            
+{% if request.user.is_authenticated %}
+<a href="{% url 'blog:update' %}">[회원정보수정] 구현</a>
+<form action="{% url 'blog:logout' %}" method="POST">
+  {% csrf_token %}
+  <input type="submit"  class="btn btn-dark" value="Logout">
+</form>
+<form action="{% url 'blog:delete' %}" method="POST">
+  {% csrf_token %}
+  <input type="submit"  class="btn btn-dark" value="회원탈퇴">
+</form>
+{% else %}
+<a class="btn btn-dark" href="{% url 'blog:login' %}" role="button">로그인</a>
+<a class="btn btn-dark" href="{% url 'blog:signup' %}" role="button">회원가입</a>
+{% endif %}

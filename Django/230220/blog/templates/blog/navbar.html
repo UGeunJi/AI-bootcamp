@@ -1,0 +1,70 @@
+{% load socialaccount %}
+            <!-- Navigation-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+                <div class="container px-5">
+                    <a class="navbar-brand" href="{% url 'blog:home' %}">YEONJI KIM</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link" href="{% url 'blog:home' %}">Home</a></li>
+                            <!-- <li class="nav-item"><a class="nav-link" href="about/">About</a></li> -->
+                              <!-- # 등록된 이름만으로 위치를 찾기 때문에 도메인 주소나 path에 영향을 받지 않는다. 다만, 자기 프로젝트 내부에서만 사용 가능하다. -->
+                            <li class="nav-item"><a class="nav-link" href="{% url 'blog:about_me' %}">About</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'blog:contact' %}">Contact</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                    <li><a class="dropdown-item" href="{% url 'blog:home' %}">Blog Home</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'blog:post_list' %}">Blog Post</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
+                                    <li><a class="dropdown-item" href="portfolio-overview.html">Portfolio Overview</a></li>
+                                    <li><a class="dropdown-item" href="portfolio-item.html">Portfolio Item</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav ml-auto">
+                            {% if user.is_authenticated %}
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="text-secondary fw-bold"> <a href="{% url 'blog:update' %}">{{ user.username }}</a> &nbsp</span>
+                                        <a class="btn btn-secondary" href="/accounts/logout/" role="button">로그아웃</a> &nbsp
+                                        <form action="{% url 'blog:delete' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="submit" class="btn btn-secondary" value="회원탈퇴">
+                                        </form>
+                                    </div>
+                            {% else %}
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                로그인
+                              </button>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title fs-5" id="loginModalLabel">로그인</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                                    {# 구글 OAuth #}
+                                    <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i>&nbsp&nbsp Log in with Google</a><br />
+                                    <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="/accounts/login/"><i class="far fa-envelope"></i>&nbsp&nbsp Log in with E-mail</a><br />
+                                    <a role="button" class="btn-dark btn-block btn-sm" href="/accounts/signup/"><i class="far fa-envelope"></i>&nbsp&nbsp Sign Up with E-mail</a>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
