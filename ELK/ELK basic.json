@@ -1,0 +1,570 @@
+# Click the Variables button, above, to create your own variables.
+GET ${exampleVariable1} // _search
+{
+  "query": {
+    "${exampleVariable2}": {} // match_all
+  }
+}
+
+# 1. 다큐먼트 단위에서
+# PUT은 ID 번호를 꼭 지정 
+PUT my_index/_doc/1
+{
+  "title": "hello world",
+  "views": 1234,
+  "public": true,
+  "created": "2019-01-17T14:05:01.234Z"
+}
+
+PUT my_index/_doc/3
+{
+  "title": "world hello bye",
+  "views": 1234,
+  "public": true,
+  "created": "2019-01-17T14:05:01.234Z"
+}
+
+# POST는 ID 자동 생성 - "0onmlYYBt5cW6YQth3L0"
+POST my_index/_doc/2
+{
+  "title": "world hello bye",
+  "views": 1234,
+  "public": true,
+  "created": "2019-01-17T14:05:01.234Z"
+}
+
+
+# READ(Retrive)
+GET my_index/_doc/1
+
+# 조건 걸어서 READ - 본문이 필요하기에 POST로 호출합니다
+  # 일치하는지, 불일치하는지, 
+    # 어느 필드에서 찾을 것인지 
+  # 검색 조건 
+POST my_index/_search/
+{
+  "query": {
+    "match": {
+    "title": "hello"
+    }
+  }
+}
+
+# 2011 년 만들어진 엔진 - 2010년대 중반까지 REST API에서 GET에 BODY를 붙이는 걸 허용하지 않았음. 그래서 POST를 썼던 건데
+# REST API의 허용방식이 나중에 바뀜 
+
+  # 검색 조건 
+GET my_index/_search/
+{
+  "query": {
+    "match": {
+    "title": "hello"
+    }
+  }
+}
+
+GET my_index/_doc/1
+
+# UPDATE - 결과는 수정이지만 내부적으로 아예 지우고 새로 쓰는 작업을 합니다 
+POST my_index/_update/1
+{
+  "doc": {
+    "title" : "hello word"
+  }
+}
+
+# ELASTCSEARCH는 PATCH는 아직 지원하지 않습니다
+PATCH my_index/_update/1
+{
+  "doc": {
+    "title" : "hello word"
+  }
+}
+
+DELETE my_index/_doc/1
+
+# 2. 인덱스
+# PUT 명령어로 생성합니다 
+PUT my_index2/
+
+GET my_index2/
+# 자동생성된 인덱스 성격 확인 
+# 복제본이 사람들이 데이터를 많이 낭비하는 경향이 있어서 1로 기본값이 설정되어있음
+# 인덱스가 기본적으로 가진 속성을 변경하려면
+
+# PUT 명령어로 수정
+PUT my_index2/_settings
+{
+  "index": {
+  "number_of_replicas": "3"
+  }
+}
+
+PUT my_index2/_settings
+{
+  "index.number_of_replicas": "3"
+  }
+
+# 인덱스 삭제
+DELETE my_index2/
+
+GET my_index2
+
+# playdata라는 인덱스에 student로 관리되는 회원정보를 넣어주세요
+# document는 2개 생성
+# 1번은 여러분의 정보
+# doc id가 자동생성 된 것은 신짱구의 정보
+# 필드는 이름(name), 나이(age)를 받습니다
+# 그리고 신짱구의 나이를 10살로 수정해보세요
+
+# 인덱스부터 만들거나
+# 인덱스(DB) 안에 다큐먼트(TABLE)까지 만들 수 있습니다
+# 다큐먼트 번호 (데이터 튜플)
+
+POST playdata/_doc/1
+{
+  "student": {
+    "name": "지우근",
+    "age": 20
+  }
+}
+
+# uuid - id를 자동 생성
+POST playdata/_doc/1
+{
+  "student": {
+    "name": "둘리",
+    "age": 1000000000
+  }
+}
+
+GET playdata/
+
+# playdata라는 db의 1번째 다큐먼트
+# student.name: "둘리"           1                1
+# student.age: 10                2                1
+
+# student            이 필드는 value가 2개인데 어떤 토큰으로 관리할 것인가? 어떤 문서주소를 부여할 것인가?
+# student.name: "둘리"           1                1
+# student.age: 10                2                1
+
+GET playdata/_search/
+{
+  "query":{
+    "match":
+    {
+      "student.name": "둘리"
+    }
+  }
+}
+
+GET playdata/_doc/1
+
+# 둘리 age를 10으로 수정
+# 우리는 하나를 수정하지만, 속에서는 아예 데이터를 지우고 새로 생성하는 방식으로 동작 중이다
+# "noop": no operation
+# 수정, 삽입 요청이 왔어도 원본과 비교했을 때 변경되지 않는 경우라면 요청 자체를 noop으로 처리하고 결과만 보여준다
+# 302
+POST playdata/_update/1
+{
+  "doc": {
+    "student.age": 10
+  }
+}
+
+PUT my_index2/
+
+GET my_index2
+
+# 5 숫자
+# "5" 문자열
+# date가 가장 필요한 자료형 "1928-03-16"
+
+PUT my_index2/_doc/1
+{
+  "name":
+    "my_index_test",
+  "age": 0
+}
+
+# Nested Type - 외부 서버들과의 통신에서 역색인 방식을 보완하기 위해 만든 참고자료형
+# student                        3        |   별도의 문서번호 발급
+# student.name: "둘리"           1        |        1
+# student.age: 10                2        |        1
+
+# 4. 인덱스의 맵핑
+PUT array_test
+	{
+		"mappings": {
+			"properties": {
+				"longField": {
+				"type": "long"
+				},
+				"keywordField": {
+					"type": "keyword"
+				}
+			}
+		}
+}
+
+GET array_test
+
+PUT array_test/_doc/1
+{
+  "longField": 123,
+  "keywordField": ["this", "is", "it"]
+}
+
+GET array_test
+
+PUT array_test/_doc/2
+{
+  "longField": [1, 2, 3],
+  "keywordField": "this is it"
+}
+
+GET array_test/_doc/2
+
+PUT array_test/_doc/3
+{
+  "longField": [1, "2", 3],
+  "keywordField": ["this is it", 1]
+}
+
+GET array_test/_doc/3
+
+GET playdata/
+
+
+# name == "둘리" && age == 10 -> ture and ture -> ture
+# playdata라는 문서에서 name이고, age가 10인 값을 찾아주세요
+POST playdata/_search/
+{
+  "query":{
+    "bool": {
+      "must": [
+        {
+          "term": {
+          "student.name": "둘리"
+          }
+},
+        {
+          "term": {
+          "student.age": 10
+        }
+        }
+        ]
+      }
+    }
+  }
+
+
+# Nested Type
+PUT playdata_nested_test
+{
+  "mappings": {
+    "properties": {
+      "student": {
+        "type": "nested",
+        "properties": {
+          "name": {
+            "type": "keyword"
+          },
+          "age": {
+            "type": "long"
+          }
+        }
+      }
+    }
+  }
+}
+
+GET playdata_nested_test/
+
+POST playdata_nested_test/_doc/1
+{
+  "student": {
+    "name": "지우근",
+    "age": 20
+  }
+}
+
+# uuid - id를 자동 생성
+POST playdata_nested_test/_doc/1
+{
+  "student": {
+    "name": "둘리",
+    "age": 1000000000
+  }
+}
+
+GET playdata_nested_test/
+
+POST playdata_nested_test/_search/
+{
+  "query":{
+    "nested": {
+      "path": "student",
+        "query": {
+          "bool": {
+            "must": [
+            {
+            "term": {
+              "student.name": "둘리"
+            }
+      },
+            {
+            "term": {
+            "student.age": 10
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+POST playdata_nested_test/_search/
+{
+  "query": {
+    "nested": {
+      "path": "student",
+      "query": {
+        "bool": {
+         "must": [
+              {
+              "term" : {
+                "student.name" : "김연지"
+              }
+        },
+              {
+                "term" : {
+                "student.age" : 30
+                }
+               }
+          ]
+        }
+      }
+    } 
+  }
+}
+
+GET playdata/_doc/1
+GET playdata_nested_test/_doc/1
+
+# text(토큰으로 단어별로 분리되어서 들어갑니다)와 keyword(통으로 들어감)
+
+PUT string_test
+{
+  "mappings": {
+    "properties": {
+      "student": {
+        "type": "nested",
+        "properties": {
+          "name": {
+            "type": "keyword"
+          },
+          "age": {
+            "type": "long"
+          }
+        }
+      }
+    }
+  }
+}
+
+PUT string_test/_doc/1
+{
+  "textField": "hello world",
+  "keywordField": "hello world!"
+}
+
+
+# 통으로 역색인이 되었기 때문에 못 찾습니다
+# 굳이 검색하지 않아도 되는 정보일 때, 데이터 자체만을 보관하기 위한 필드타입입니다 
+GET string_test/_search
+{
+  "query":
+  { 
+    "match": {
+      "keywordField": "hello world!"
+    }
+  }
+}
+
+# 토큰화 되어서 어느 문서들에 해당 단어가 있는지까지 정보를 가지고 들어감 -> 비용소모가 있을 것
+GET string_test/_search
+{
+  "query":
+  { 
+    "match": {
+      "textField": "hello"
+    }
+  }
+}
+
+PUT string_test/_doc/2
+{
+  "textField": ["hello world", "here", "playdata"],
+  "keywordField": ["hello world!", "here!", "playdata!"]
+}
+
+GET string_test/_doc/2
+
+GET string_test/_search
+{
+  "query":
+  {
+    "match": {
+      "keywordField": "hello world!"
+    }
+  }
+}
+
+
+# 기본적으로 대소문자는 구별하지 않고 검색함
+# 우리가 셋팅을 할 수는 있겠다
+
+GET string_test/_search
+{
+  "query":
+  {
+    "match": {
+      "textField": "HELLO"
+    }
+  }
+}
+
+PUT my_date
+{
+  "mappings": {
+    "properties": {
+      "date_val": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss||yyyy/MM/dd||epoch_millis"
+      },
+      "keywordString": {
+        "type": "keyword"
+      },
+      "textString": { 
+        "type":"text"
+      }
+    }
+  }
+}
+
+# NoSQL 비정형 데이터를 관리하는 DB 타입
+# 1) 인덱스에 필드 하나 더 만들어라 (Update) - after_created_index
+# 2) ISO8601 기준에만 맞으면 다 받아라 - date_optional_time
+PUT my_date/_mapping
+{
+  "properties": {
+    "after_created_index": {
+    "type": "date",
+    "format": "date_optional_time"
+    }
+    }
+}
+
+GET my_date
+
+POST my_date/_doc/1
+{
+  "date_val": "2023-02-28 15:18:22",
+  "keywordString": "yes yes yes"
+}
+
+POST my_date/_doc/2
+{
+  "date_val": "2023/02/28",
+  "keywordString": "yes yes yes"
+}
+
+PUT my_date/_doc/3
+{ 
+  "date_val": 1420070400001
+}
+
+# range를 통해서 검색조건을 한정할 수 있습니다
+# gte, lte, gt, lt, eq
+
+GET my_date/_search
+{
+  "query": {
+    "range": {
+      "date_val": {
+        "lte": "2023/02/28"
+      }
+    }
+  }
+}
+
+GET my_date/_search
+{
+  "query": {
+    "range": {
+      "date_val": {
+        "gte": "2023/02/28"
+      }
+    }
+  }
+}
+
+GET my_date/_search
+{
+  "query": {
+    "range": {
+      "date_val": {
+        "gt": "2023/02/28"
+      }
+    }
+  }
+}
+
+
+# playdata 인덱스에서 나아가 20살보다 많은 사람만 검색해보세요
+# 12 < x < 35
+GET my_date/_search
+{
+  "query": {
+    "range": {
+      "date_val": {
+        "lte": "2023/02/28"
+      }
+    }
+  }
+}
+
+GET playdata/_search
+{
+  "query": {
+    "range": {
+      "student.age": {
+        "gt": 12,
+        "lt": 35
+      }
+    }
+  }
+}
+
+GET my_date
+
+PUT my_date/_doc/4
+{
+  "after_created_index": "2022-01-31"
+}
+
+PUT my_date/_doc/5
+{
+  "after_created_index": "2022-01-26T16:46:40+00:00"
+}
+
+# 검색에 제일 많아 PK로 사용하는 값은 날짜
+# 년-월-일 단위까지는 기본적으로 삽입해 주셔야 합니다
+# strict_date_optional_time: 연을 4자리수로 받는 옵션
+PUT my_date/_doc/5
+{
+  "after_created_index": "2022-W43"
+}
+
+GET my_date
