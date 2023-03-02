@@ -1,0 +1,1252 @@
+# 20230302
+
+# URI를 이용하는 방법
+GET my_date/_search?q=date_val:1420070400001
+
+# QueryDSL
+GET my_date/_search
+{
+  "query":{
+      "match": {
+         "date_val" : 1420070400001
+    }
+  }
+}
+
+# 1) my_index 에서 world가 들어있는 다큐먼트만 검색
+# 단어 여러개를 검색하면 기본적으로 or 명령어가 작동한다
+# "match_phrase"라는 속성을 사용하면 순서대로 완전 일치의 경우에만 검색된다
+
+POST my_index/_doc
+{
+  "title": "hello java world"
+}
+
+GET my_index/_search?q=title:world
+
+GET my_index/_search
+{
+  "query":{
+      "match": {
+         "title" : "world"
+    }
+  }
+}
+
+# 내부에 있는 문서 전부 다 보기
+GET my_index/_search  
+
+GET my_index/_search  
+{
+  "query":{
+      "match_all": {
+    }
+  }
+}
+
+# 순서를 고려해서 보여주기 
+GET my_index/_search
+{
+  "query":{
+      "match_phrase": {
+        "message": {
+         "query" : "hello world", 
+         "slop": 1
+        }
+    }
+  }
+}
+
+# "query_string": 조건을 풀어서 제시하는 방식
+# 모든 필드에서 world라는 단어가 들어간 내용을 찾고 있음 
+GET my_index/_search
+{
+  "query":{
+      "query_string": {
+        "query" : "world"
+    }
+  }
+}
+
+# query_string에 default_field: 필드명이라는 옵션을 넣으면 해당 필드에서만 찾게 됩니다
+
+# 2) world가 안 들어있는 다큐먼트만 검색해보세요
+
+# 같은 형식으로 만들어진 데이터를 한꺼번에 집어넣는 방법
+POST _bulk
+{"index": {"_index" : "test", "_id":"1"}}{"account_number":1,"balance":39225,"firstname":"Amber","lastname":"Duke","age":32,"gender":"M","address":"880 Holmes Lane","employer":"Pyrami","email":"amberduke@pyrami.com","city":"Brogan","state":"IL"}
+{"index":{"_index" : "test", "_id":"6"}}{"account_number":6,"balance":5686,"firstname":"Hattie","lastname":"Bond","age":36,"gender":"M","address":"671 Bristol Street","employer":"Netagy","email":"hattiebond@netagy.com","city":"Dante","state":"TN"}
+{"index":{"_index" : "test", "_id":"13"}}
+{"account_number":13,"balance":32838,"firstname":"Nanette","lastname":"Bates","age":28,"gender":"F","address":"789 Madison Street","employer":"Quility","email":"nanettebates@quility.com","city":"Nogal","state":"VA"}
+{"index":{"_index" : "test", "_id":"18"}}
+{"account_number":18,"balance":4180,"firstname":"Dale","lastname":"Adams","age":33,"gender":"M","address":"467 Hutchinson Court","employer":"Boink","email":"daleadams@boink.com","city":"Orick","state":"MD"}
+{"index":{"_index" : "test", "_id":"20"}}
+{"account_number":20,"balance":16418,"firstname":"Elinor","lastname":"Ratliff","age":36,"gender":"M","address":"282 Kings Place","employer":"Scentric","email":"elinorratliff@scentric.com","city":"Ribera","state":"WA"}
+{"index":{"_index" : "test", "_id":"25"}}
+{"account_number":25,"balance":40540,"firstname":"Virginia","lastname":"Ayala","age":39,"gender":"F","address":"171 Putnam Avenue","employer":"Filodyne","email":"virginiaayala@filodyne.com","city":"Nicholson","state":"PA"}
+{"index":{"_index" : "test", "_id":"32"}}
+{"account_number":32,"balance":48086,"firstname":"Dillard","lastname":"Mcpherson","age":34,"gender":"F","address":"702 Quentin Street","employer":"Quailcom","email":"dillardmcpherson@quailcom.com","city":"Veguita","state":"IN"}
+
+GET test/_doc/32
+
+# 1. must: 꼭 포함
+# 2. must_not: 꼭 불포함
+# 3. should: 해당 조건이 있으면 검색 결과 순위에서 상위
+# 4. fliter: 조건은 포함하되 검색결과 순위(score)에는 영향을 미치지 않음
+GET test/_search
+{
+  "query": {
+    "bool": {
+      "must":[
+        {
+          
+        }
+      ],
+      "must_not": [
+        {
+          
+        }
+      ],
+      "should": [
+        {
+          
+        }
+      ],
+      "filter": [
+        {
+          
+        }
+      ]
+    }
+  }
+}
+
+# 1. 나이가 34세면서 여성인 사람
+GET test/_search
+{"query": 
+  {
+	"bool": {
+  	"must" : [
+  	  {
+  	    "match": {
+  	    "age" : 34
+  	      }
+  	    }
+  	    ,
+  	    {
+  	    "match": {
+  	    "gender": "F"
+    	    }
+  	    }  	      
+  	]
+	}
+ }
+}
+
+# 2. 나이가 34세면서 이름이 Dillard인 사람
+GET test/_search
+{"query": 
+  {
+	"bool": {
+  	"must" : [
+  	  {
+  	    "match": {
+  	    "age" : 34
+  	      }
+  	    }
+  	    ,
+  	    {
+  	    "match": {
+  	    "firstname": "Dillard"
+    	    }
+  	    }  	      
+  	]
+	}
+ }
+}
+
+# 3. balance가 30000보다 많은 사람
+GET test/_search
+{"query": 
+  {
+	"bool": {
+  	"must" : [
+  	  {
+        "range": {
+    	    "balance": {
+  	      "gte": 30000
+  	     }
+        }
+  	  }
+  	]
+	}
+ }
+}
+
+GET test/_search
+{"query": 
+  {
+	"bool": {
+  	"must" : [
+  	  {
+        "range": {
+    	    "balance": {
+  	      "gt": 30000,
+  	      "lt": 40000
+  	     }
+        }
+  	  }
+  	]
+	}
+ }
+}
+
+# 4. 30000보다 balance가 많으면서 firstname이 Dillard가 아닌 사람
+GET test/_search
+{
+  "query": {
+	  "bool": {
+  	  "must" : [
+  	    {
+        "range": {
+    	    "balance": {
+  	      "gt": 30000
+  	     }
+        }
+  	  }
+  	  ],
+	    "must_not" : [
+	    {
+	      "match":{
+	      "firstname" : "Dillard"
+	      }
+	     }
+	   ]
+  }
+ }
+}
+
+# 5. balance가 30000보다 높으면서 state가 PA인 경우에 가중치
+GET test/_search
+{
+  "query": {
+	  "bool": {
+  	  "must" : [
+  	    {
+        "range": {
+    	    "balance": {
+  	      "gt": 30000
+  	     }
+        }
+  	  }
+  	  ],
+	    "must_not" : [
+	    {
+	      "match":{
+	      "firstname" : "Dillard"
+	      }
+	     }
+	   ],
+	   "should" : [
+	    {
+	      "match":{
+	      "state" : "PA"
+	      }
+	     }
+	   ]
+  }
+ }
+}
+
+
+# 6. balance가 30000보다 높으면서 state가 PA인 경우를 검색하되 score에는 영향을 주지 않음
+GET test/_search
+{
+  "query": {
+	  "bool": {
+  	  "must" : [
+  	    {
+        "range": {
+    	    "balance": {
+  	      "gt": 30000
+  	     }
+        }
+  	  }
+  	  ],
+	    "must_not" : [
+	    {
+	      "match":{
+	      "firstname" : "Dillard"
+	      }
+	     }
+	   ],
+	   "filter" : [
+	    {
+	      "match":{
+	      "state" : "PA"
+	      }
+	     }
+	   ]
+  }
+ }
+}
+
+# 7. balance가 30000보다 높은 사람을 검색하되 age가 27인 경우를 검색하되 score에는 영향을 주지 않음
+GET test/_search
+{
+  "query": {
+	  "bool": {
+  	  "must" : [
+  	    {
+        "range": {
+    	    "balance": {
+  	      "gt": 30000
+  	     }
+        }
+  	  }
+  	  ],
+	   "filter" : [
+	    {
+	      "range":{
+	      "age" : {
+	        "gt": 27
+	      }
+	      }
+	     }
+	   ]
+  }
+ }
+}
+
+# 2) my_index에서 world가 안 들어있는 다큐먼트만 검색해보세요 
+GET my_index/_search
+{
+  "query": {
+	  "bool": {
+	  	"must_not" : [
+	      {
+	        "match":{
+	          "title":"world"
+	        }
+	      }
+	   ]
+    }
+  }
+}
+
+GET test/_search
+# test 라는 index에 1이라는 doc id에 여러분의 정보를 넣어보세요 
+
+# NoSQL
+POST test/_doc/
+ {
+          "account_number": 1,
+          "balance": 70000,
+          "firstname": "Ugeun",
+          "lastname": "Ji",
+          "age": 40,
+          "gender": "M",
+          "address": "파주시 파평면"
+} 
+
+GET test/_doc/1
+
+# 없는 필드는 안 들어간 채 관리됨 (비정형 데이터 특징)
+GET test/_doc/1
+
+# my_bulk 라는 인덱스명으로 해당 데이터들을 일괄로 넣어주세요 
+# 그냥 _bulk 명령어를 이용해서 아래 인덱스를 넣어보세요 
+POST _bulk/
+{ "index" : { "_index" : "test", "_id" : "1" } }
+{ "field1" : "value1" }
+{ "index" : { "_index" : "test", "_id" : "2" } }
+{ "field1" : "value1" }
+{ "index" : { "_index" : "test", "_id" : "3" } }
+{ "field1" : "value3" }
+{ "index" : { "_index" : "test", "_id" : "4" } }
+{ "field1" : "value4" }
+{ "index" : { "_index" : "test", "_id" : "5" } }
+{ "field1" : "value5" }
+{ "index" : { "_index" : "test", "_id" : "6" } }
+{ "field1" : "value6" }
+
+# 텍스트 데이터는 \n로 해당 데이터(튜플)의 끝을 구분합니다 
+POST my_bulk/_bulk
+{"index":{"_id":1}}
+{"message":"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"}
+{"index":{"_id":2}}
+{"message":"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를, 잎새에 이는 바람에도 나는 괴로워했다"}
+{"index":{"_id":3}}
+{"message":"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를, 잎새에 이는 바람에도 너는 괴로워했다"}
+{"index":{"_id":4}}
+{"message":"chrome google Chrome Google"}
+{"index":{"_id":5}}
+{"message":"하늘사 Google Chrome"}
+{"index":{"_id":6}}
+{"message":"pink"}
+{"index":{"_id":7}}
+{"message":"pinkRed"}
+{"index":{"_id":8}}
+{"message":"pink red blue"}
+{"index":{"_id":9}}
+{"message":"pink red blue black"}
+{"index":{"_id":10}}
+{"message":"pink red blue black green"}
+{"index":{"_id":11}}
+{"message":"pink blue red black green"}
+{"index":{"_id":12}}
+{"message":"pink pink"}
+
+
+# my_bulk 인덱스의 13번 id에 playdata라는 메세지를 넣어보세요 
+POST my_bulk/_doc/13
+{
+  "message" : "playdata"
+}
+
+GET my_bulk/_search
+
+# google 이라는 단어가 들어간 모든 문서를 검색해보세요
+# match는 소문자 대문자 안가리고 검색을 해준다 
+# 역색인시 처음부터 lowercase해서 토큰 발급 
+# 띄어쓰기가 OR로 취급됨 
+GET my_bulk/_search
+{
+  "query": {
+    "match" : {
+      "message" : "CHROME GOOGLE"
+    }
+  }
+}
+
+# Chrome Google이 순서대로 들어있는 애만 검색
+#  "match_phrase" : 딱 일치하는 단어 검색 
+GET my_bulk/_search
+{
+  "query": {
+    "match_phrase": {
+      "message" : "CHROME GOOGLE"
+    }
+  }
+}
+
+GET my_bulk/_search
+{
+  "query": {
+    "match": {
+      "message" : "pink"
+    }
+  }
+}
+
+# pink가 들어가되 blue가 같이 들어있는 경우 가중치 부여
+# bool - match : pink , should : blue
+GET my_bulk/_search
+{
+  "query": {
+    "bool": {
+      "must" : [{
+          "match": {
+              "message" : "pink"
+        }
+      }],
+      "should" : [{
+          "match": {
+            "message": "blue"
+          }
+      }]
+    }  
+  }
+}
+
+# pink가 들어가되 blue가 같이 들어있는 경우 SCORE는 바뀌지 않되 해당 조건을 검색
+# bool - match : pink , should : blue
+GET my_bulk/_search
+{
+  "query": {
+    "bool": {
+      "must" : [{
+          "match": {
+              "message" : "pink"
+        }
+      }],
+      "filter" : [{
+          "match": {
+            "message": "blue"
+          }
+      }]
+    }  
+  }
+}
+
+# 검색 결과에 옵션 추가
+# slop : query에 제시된 term 사이에 특정 term 수 표현
+# 1, 2 바꿔보기
+GET my_bulk/_search
+{
+  "query": {
+    "match_phrase": {
+      "message": {
+        "query" : "pink black",
+        "slop" : 1 
+      }
+    }
+  }
+}
+
+# 스타벅스 00점 신메뉴 후기 
+GET my_bulk/_search
+{
+  "query": {
+    "match_phrase": {
+      "message": {
+        "query" : "pink black",
+        "slop" : 2
+      }
+    }
+  }
+}
+
+GET my_bulk/_search
+{
+  "query": {
+    "match_phrase": {
+      "message": {
+        "query" : "black pink",
+        "slop" : 1
+      }
+    }
+  }
+}
+
+GET my_bulk/_search
+{
+  "query": {
+    "match_phrase": {
+      "message": {
+        "query" : "black pink",
+        "slop" : 2
+      }
+    }
+  }
+}
+
+# 하늘사는 안 들어가고 chrome은 들어가는 다큐먼트를 검색해 보세요
+# 하늘사: 스팸 의미
+# 걸러낸 결과를 어떤 우선순위로 정렬하는 게 옳을 것인가
+# 하늘사가 없어서 점수를 부여하고 싶으면 bool
+# 하늘사가 없다고 거기에 점수는 부여하지 않고 싶으면 filter
+
+GET my_bulk/_search
+{
+  "query":
+    { "bool":
+      { "must": [
+            { "match": 
+              { 
+                "message" : "chrome"
+              }
+ 
+            }
+          ],
+        "must_not": [
+           {"match": {
+            "message" : "하늘사"
+           }
+          }
+        ]
+      }
+    }
+}
+
+GET my_bulk/_search
+{ "query": 
+  { "bool": 
+    { "must": [
+        { "match": { 
+          "message": "chrome"
+        }
+      }
+    ],
+        "must_not": [
+          { "match":{
+          "message": "하늘사"
+          }
+        }
+      ],
+      "filter": [{
+        "match":{
+          "message": "google"
+        }
+      }
+      ]
+    }
+  }
+}
+
+
+GET my_bulk/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "message": "google"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "bool": {
+            "must_not" : [
+              {
+                "match": {
+                  "message": "하늘사"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+
+
+
+
+
+## 이후 확인
+
+# SM의 아이돌 NCT는 곡의 컨셉, 장르, 멤버 간 밸런스에 따라 어울리는 멤버들을 선정하기 때문에 멤버 구성이 매번 달라지는 유닛형 그룹이다. 
+# 중국팀을 제외한 모든 유닛 NCT라는 단어가 들어가기 때문에 NCT만 검색해서는 구분할 수 없다. 각 유닛명을 제대로 입력해야지만 나온다!
+
+GET nct_units
+PUT nct_units
+{
+  "mappings": {
+    "properties": {
+      "unitName" : {
+        "type" : "keyword"
+      },
+      "memberName" : {
+        "type" : "text"
+      },
+      "memberCount" : {
+        "type" : "integer"
+      }, 
+      "debutYear" : {
+        "type" : "integer"
+      }
+    }
+  }
+}
+
+PUT nct_units/_doc/1
+{"unitName"  : "NCT U",
+"memberName" : "태일 성찬 샤오쥔 재민 도영 해찬 유타 텐 쇼타로 양양 태용 마크 재현 루카스 지성 런쥔 천러 헨드리 제노 정우 윈윈 쿤 쟈니",
+"debutYear" :  2016,
+"memberCount" : 23}
+
+PUT nct_units/_doc/2
+{"unitName"  : "NCT 127",
+"memberName" : "태일  쟈니  태용  유타  도영 재현  윈윈  정우  마크  해찬",
+"debutYear" :  2016,
+"memberCount" : 10}
+
+PUT nct_units/_doc/3
+{
+"unitName"  : "NCT DREAM",
+"memberName" : "마크  런쥔  제노  해찬  재민  천러  지성",
+"debutYear" :  2016,
+"memberCount" : 7}
+
+PUT nct_units/_doc/4
+{
+"unitName"  : "WayV",
+"memberName" : "쿤  텐  윈윈  루카스  샤오쥔  헨드리  양양",
+"debutYear" :  2019,
+"memberCount" : 7
+}
+
+GET nct_units/_mapping
+
+GET nct_units/_search
+{
+  "query": {
+    "match": {
+      "unitName": "NCT U"
+    }    
+  }
+}
+
+GET nct_units/_search
+{
+  "query": {
+    "match": {
+      "unitName": "NCT DREAM"
+    }    
+  }
+}
+
+# keyword타입으로 된 필드라도 검색이 아예 안되는 건 아닙니다 
+# 실무에서는 *(와일드카드)로 전체를 찾는 것은 권장되지 않습니다 - sql 
+# selct * from student; 
+
+GET nct_units/_search
+{
+  "query": {
+    "query_string": {
+      "query": "NCT*",
+      "default_field" : "unitName"
+      }
+    }    
+  }
+
+# 기본 애널라이저
+POST _analyze
+{
+  "analyzer": "standard",
+  "text": "Hello, HELLO, World!"
+}
+
+# '사과나무'.len()
+# len(사과나무)
+POST _analyze
+{
+  "analyzer": "standard",
+  "text": "텍스트를 하나 넣어서 어떻게 토큰화하는지 살펴보고 있다"
+}
+
+POST _analyze
+{
+  "analyzer": "whitespace",
+  "text": "텍스트를 하나 넣어서 어떻게 토큰화하는지 살펴보고 있다"
+}
+
+POST _analyze
+{
+  "analyzer": "stop",
+  "text": "텍스트를 하나 넣어서 어떻게 토큰화하는지 살펴보고 있다"
+}
+
+# fingerprint - 아스키코드가 아닌 애를 아스키코드로, 중복을 하나로 카운트 해주는 애널라이저
+POST _analyze
+{
+  "analyzer": "fingerprint",
+  "text": "Yes yes, Gödel said this sentence is consistent and."
+}
+
+# html strip 캐릭터필드 적용
+# 캐릭터 필터
+POST _analyze
+{
+  "char_filter": ["html_strip"],
+  "text": "<p>I&apos;m so <b>happy</b>!</p>"
+}
+
+# 토크나이저
+POST _analyze
+{
+  "tokenizer": "keyword", 
+  "text": "Hello, HELLO, World!"
+}
+
+POST _analyze
+{
+  "tokenizer": {
+    "type": "ngram",
+    "min_gram": 3,
+    "max_gram": 4
+  },
+  "text": "Hello, World!"
+}
+
+# "o, W"나 ", Wo"나 "ld!"처럼 공백 문자나 문장 부호가 포함되어 사실상 의미가 없는 토큰도 포함되는데... 
+# token_chars라는 속성을 사용한다면?
+
+POST _analyze
+{
+  "tokenizer": {
+    "type": "ngram",
+    "min_gram": 3,
+    "max_gram": 4,
+    "token_chars": ["letter"]
+  },
+  "text": "Hello, World!"
+}
+
+# edge_ngram
+# 모든 토큰의 시작 글자를 단어의 시작 글자로 고정시켜서 생성 
+# - llo 같은 토큰은 생성되지 않음
+POST _analyze
+{
+  "tokenizer": {
+    "type": "edge_ngram",
+    "min_gram": 3,
+    "max_gram": 4,
+    "token_chars": ["letter"]
+  },
+  "text": "Hello, World!"
+}
+
+POST _analyze
+{
+  "analyzer": "kuromoji",
+  "text": "タイトル曲「JUICY」は強烈なビートにオリエンタルなサウンドとギターが調和した、ハイブリッドトラップの曲で、遊び心いっぱいの歌詞が印象的な歌だ。"
+}
+
+POST _analyze
+{
+  "analyzer": "smartcn",
+  "text": "第23届冬季奥运会将于2018年2月9日-25日在韩国江原道平昌展开。"
+}
+
+POST _analyze
+{
+  "analyzer": "nori",
+  "text": "뒷동산에 감나무 심기"
+}
+
+PUT my_nori_test
+
+GET my_nori_test
+
+PUT my_nori_test
+{
+  "settings": {
+    "analysis": {
+      "tokenizer": {
+        "type": "nori"
+      }
+    }
+  }
+}
+
+# 뒷동산에 / 감나무 / 심기
+GET _analyze
+{
+  "tokenizer": "standard",
+  "text": "뒷동산에 감나무 심기"
+}
+
+# 뒷동산에 / 감나무 / 심기
+
+GET _analyze
+{
+  "tokenizer": "standard",
+  "text": "뒷동산에 @ 감나무 심기"
+}
+
+# 뒷동산에 / 감나무 / @ / 심기
+GET _analyze
+{
+  "tokenizer": "whitespace",
+  "text": "뒷동산에 감나무 @ 심기"
+}
+
+# 뒷 / 동산 / 에 / 감 / 나무 / 심기
+GET _analyze
+{
+  "tokenizer": "nori_tokenizer",
+  "text": "뒷동산에 감나무 심기"
+}
+
+# 뒷 / 동산 / 에 / 감 / 나무 / 심기
+GET _analyze
+{
+  "tokenizer": "nori_tokenizer",
+  "text": "뒷동산에 @ 감나무 심기"
+}
+
+DELETE my_nori
+
+# index에 사전 추가하는 작업
+PUT my_nori
+{
+  "settings": {
+    "analysis": {
+      "tokenizer": {
+        "my_n_t": {
+          "type" : "nori_tokenizer",
+          "user_dictionary_rules" : [
+            "감나무"
+            ]
+        }
+      }
+    }
+  }
+}
+
+# 뒷 / 동산 / 에 / 감나무 / 심기 (감나무가 분해되지 않게 하나의 토큰으로 설정되게)
+GET my_nori
+GET my_nori/_analyze
+{
+  "tokenizer": "my_n_t",
+  "text": "뒷동산에 @ 감나무 심기"
+}
+
+# 각 설정에 따라 어근 분리 또는 분리하지 않거나 모두 저장하는 것을 확인
+# "decompound_mode" : 복합 명사를 토크나이저로 처리하는 방식
+# 옵션 : none/discard/mixed
+DELETE my_nori
+
+PUT my_nori
+{
+  "settings": {
+    "analysis": {
+      "tokenizer": {
+        "nori_none":{
+          "type": "nori_tokenizer",
+          "decompound_mode": "none"
+        },
+        "nori_discard": {
+          "type": "nori_tokenizer",
+          "decompound_mode": "discard"
+        },
+        "nori_mixed":{
+           "type": "nori_tokenizer",
+          "decompound_mode": "mixed"
+          
+        }
+      }
+    }
+  }
+}
+
+# 뒷동산 / 에 / 감나무 / @ / 심기
+# 각 설정에 따라 
+GET my_nori/_analyze
+{
+  "tokenizer": "nori_none",
+  "text": "뒷동산에 감나무 @ 심기"
+}
+
+# 뒷 / 동산 / 에 / 감 / 나무 / 심기
+GET my_nori/_analyze
+{
+  "tokenizer": "nori_discard",
+  "text": "뒷동산에 감나무 심기"
+}
+
+# 뒷동산 / 뒷 / 동산 / 에 / 감나무 / 감 / 나무 / 심기
+GET my_nori/_analyze
+{
+  "tokenizer": "nori_mixed",
+  "text": "뒷동산에 감나무 심기"
+}
+
+DELETE nori_analyzer
+# 명사를 제외한 모든 형태소 제거하는 설정
+PUT nori_analyzer
+{
+  "settings" : {
+  "index": {
+    "analysis": {
+      "analyzer": {
+        "nori_stoptags_analyzer": {
+          "tokenizer": "nori_tokenizer",
+          "filter": [
+            "nori_posfilter"
+          ]
+        }
+      },
+      "filter": {
+        "nori_posfilter": {
+          "type": "nori_part_of_speech",
+          "stoptags": [
+              "E",
+              "IC",
+              "J",
+              "MAG",
+              "MAJ",
+              "MM",
+              "NA",
+              "NR",
+              "SC",
+              "SE",
+              "SF",
+              "SH",
+              "SL",
+              "SN",
+              "SP",
+              "SSC",
+              "SSO",
+              "SY",
+              "UNA",
+              "UNKNOWN",
+              "VA",
+              "VCN",
+              "VCP",
+              "VSV",
+              "VV",
+              "VX",
+              "XPN",
+              "XR",
+              "XSA",
+              "XSN",
+              "XSV"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+
+# 뒷 / 동산 / 에 / 감나무 / 심기 (감나무가 분해되지 않게 하나의 토큰으로 설정되게)
+GET my_nori
+# '사과나무'.len()
+# my_nori 라는 인덱스에서만 내장된
+# my_n_t라는 토크나이저를 빌려와서 쓰고 있는 겁니다 
+
+# 인덱스의 setting 안에 사용할 기본 애널라이저를 설정해주셔야 합니다
+# 그때는 커스터마이징한 토큰을 부여할 수 있습니다
+GET my_nori/_analyze
+{
+  "tokenizer": "my_n_t",
+  "text": "뒷동산에 @ 감나무 심기"
+}
+
+# 각 설정에 따라 어근 분리 또는 분리하지 않거나 모두 저장하는 것을 확인
+# "decompound_mode" : 복합 명사를 토크나이저로 처리하는 방식
+# 옵션 : none/discard/mixed
+DELETE my_nori
+
+PUT my_nori
+{
+  "settings": {
+    "analysis": {
+      "tokenizer": {
+        "nori_none":{
+          "type": "nori_tokenizer",
+          "decompound_mode": "none"
+        },
+        "nori_discard": {
+          "type": "nori_tokenizer",
+          "decompound_mode": "discard"
+        },
+        "nori_mixed":{
+           "type": "nori_tokenizer",
+          "decompound_mode": "mixed"
+          
+        }
+      }
+    }
+  }
+}
+
+# 뒷동산 / 에 / 감나무 / 심기
+GET my_nori/_analyze
+{
+  "tokenizer": "nori_none",
+  "text": "뒷동산에 감나무 심기"
+}
+
+# 뒷 / 동산 / 에 / 감 / 나무 / 심기
+GET my_nori/_analyze
+{
+  "tokenizer": "nori_discard",
+  "text": "뒷동산에 감나무 심기"
+}
+
+# 뒷동산 / 뒷 / 동산 / 에 / 감나무 / 감 / 나무 / 심기
+GET my_nori/_analyze
+{
+  "tokenizer": "nori_mixed",
+  "text": "뒷동산에 감나무 심기"
+}
+
+DELETE nori_analyzer
+# 명사를 제외한 모든 형태소 제거하는 설정
+PUT nori_analyzer
+{
+  "settings" : {
+  "index": {
+    "analysis": {
+      "analyzer": {
+        "nori_stoptags_analyzer": {
+          "tokenizer": "nori_tokenizer",
+          "filter": [
+            "nori_posfilter"
+          ]
+        }
+      },
+      "filter": {
+        "nori_posfilter": {
+          "type": "nori_part_of_speech",
+          "stoptags": [
+              "E",
+              "IC",
+              "J",
+              "MAG",
+              "MAJ",
+              "MM",
+              "NA",
+              "NR",
+              "SC",
+              "SE",
+              "SF",
+              "SH",
+              "SL",
+              "SN",
+              "SP",
+              "SSC",
+              "SSO",
+              "SY",
+              "UNA",
+              "UNKNOWN",
+              "VA",
+              "VCN",
+              "VCP",
+              "VSV",
+              "VV",
+              "VX",
+              "XPN",
+              "XR",
+              "XSA",
+              "XSN",
+              "XSV"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+
+GET nori_analyzer/_analyze
+{
+  "analyzer": "nori_stoptags_analyzer",
+  "text": "뒷동산에 감나무 심어보자"
+}
+
+
+# 문서에 존재하는 한자를 한글로 변경하는 역할의 필터
+PUT nori_readingform
+{
+    "settings": {
+        "index":{
+            "analysis":{
+                "analyzer" : {
+                    "nori_readingform_analyzer" : {
+                        "tokenizer" : "nori_tokenizer",
+                        "filter" : ["nori_readingform"]
+                    }
+                }
+            }
+        }
+    }
+}
+
+POST  nori_readingform/_analyze
+{
+  "analyzer": "nori_readingform_analyzer",
+  "text": "中國에 다녀 온 적이 있습니까?"      
+}
+DELETE nori_num
+# nori_num이라는 사용자 필터를 만들어서 "공일공-1234-오륙칠팔" 이라는 텍스트를 분석해보세요 
+PUT nori_num
+{
+    "settings": {
+        "index":{
+            "analysis":{
+                "analyzer" : {
+                    "nori_number_analyzer" : {
+                       "tokenizer": "tokenizer_discard_puncuation_false",
+            "filter": [
+              "part_of_speech_stop_sp", "nori_number"
+            ]
+                    }
+                },
+        "tokenizer": {
+          "tokenizer_discard_puncuation_false": {
+            "type": "nori_tokenizer",
+            "discard_punctuation": "false"
+          }
+        },
+        "filter": {
+            "part_of_speech_stop_sp": {
+                "type": "nori_part_of_speech",
+                "stoptags": ["SP"]
+            }
+        }
+            }
+        }
+    }
+}
+
+# nori_number을 사용할 때 주의점 공 -> 영, 륙 (별도의 user_dictionary 안에 추가해주셔야 합니다)
+POST nori_num/_analyze
+{
+  "analyzer":  "nori_number_analyzer" ,
+  "text": "영일영-1234-오육칠팔"      
+}
+
+# 나만의 형태소 분석기(analyzer)로 별헤는 밤을 분석해 보세요
+POST _analyze 
+{
+  "analyzer": "standard", 
+ "text": """별 헤는 밤
+
+                         윤동주 /시인
+ 
+
+계절이 지나가는 하늘에는
+가을로 가득 차 있습니다.
+ 
+ 
+나는 아무 걱정도 없이
+가을 속의 별들을 다 헤일 듯합니다.
+ 
+ 
+가슴속에 하나 둘 새겨지는 별을
+이제 다 못 헤는 것은
+쉬이 아침이 오는 까닭이요,
+내일 밤이 남은 까닭이요,
+아직 나의 청춘이 다하지 않은 까닭입니다.
+ 
+ 
+별 하나에 추억과
+별 하나에 사랑과
+별 하나에 쓸쓸함과
+별 하나에 憧憬과
+별 하나에 詩와
+별 하나에 어머니, 어머니
+ 
+ 
+어머님, 나는 별 하나에 아름다운 말 한마디씩 불러봅니다.
+소학교 때 책상을 같이 했던 아이들의 이름과 佩, 鏡,
+玉 이런 異國少女들의 이름과, 벌써 아기 어머니
+된 계집애들의 이름과, 가난한 이웃사람들의 이름과, 비둘기,
+강아지, 토끼, 노새, 노루, 프랑시스 잼, 라이너 마리아 릴케,
+이런 시인의 이름을 불러 봅니다.
+ 
+ 
+이네들은 너무나 멀리 있습니다
+별이 아스라이 멀듯이.
+ 
+ 
+어머님,
+그리고 당신은 멀리 北間島에 계십니다.
+ 
+ 
+나는 무엇인지 그리워서
+이 많은 별빛이 내린 언덕 위에
+내 이름자를 써 보고,
+흙으로 덮어 버리었습니다.
+ 
+ 
+딴은 밤을 새워 우는 벌레는
+부끄러운 이름을 슬퍼하는 까닭입니다.
+ 
+ 
+그러나 겨울이 지나고 나의 별에도 봄이 오면,
+무덤 위에 파란 잔디가 피어나듯이
+내 이름자 묻힌 언덕 위에도
+자랑처럼 풀이 무성할 게외다.
+"""   
+}
