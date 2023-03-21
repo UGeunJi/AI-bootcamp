@@ -24,7 +24,7 @@
 | 73 ~ 77 | JAVASCRIPT | :heart: |
 | 78 ~ 79 | Bootstrap | :heart: |
 | 82 ~ 89 | Django | :heart: |
-| 93 ~ 100 | ELK |
+| 93 ~ 100 | ELK | :heart: |
 
 # :computer: Project
 
