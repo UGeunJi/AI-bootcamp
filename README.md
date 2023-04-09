@@ -36,4 +36,4 @@
 | 71 ~ 72 | Mini Project | :heart: |
 | 80 ~ 81 | Mini Project | :heart: |
 | 90 ~ 92 | Mini Project | :heart: |
-| 101 ~ 120 | main project |
+| 101 ~ 120 | main project | :heart: |
